@@ -24,3 +24,5 @@ app.use(express.static("./static"))
 app.listen(80,()=>{
     console.log('start');
 })
+
+module.exports=app
