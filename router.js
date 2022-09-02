@@ -32,7 +32,7 @@ router.get("/get/:id",async (ctx)=>{
 		--len;
 	}
     //生成4位随机string[]
-    ctx.body = result
+    ctx.body = {newurl : result}
     // res.send({"newurl":result});
 })
 
@@ -50,7 +50,7 @@ router.get("/get/:id",async (ctx)=>{
 // })
 
 router.post("/post",async (ctx)=>{
-    console.log(ctx.request.body.url);  
+    console.log(ctx.url);  
     // req.body.newurl=req.body.newurl
     const body = ctx.request.body
     //判断输入链接是否与数据库重复

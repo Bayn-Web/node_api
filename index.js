@@ -4,7 +4,9 @@ const router = require("./router")
 
 
 const koa = require("koa")
-const app = new koa
+const app = new koa()
+const bodyParser = require("koa-bodyparser")
+
 
 // const { MongoClient, ServerApiVersion } = require('mongodb');
 // const uri = "mongodb+srv://bayn:<password>@shortsaver.4vempyp.mongodb.net/?retryWrites=true&w=majority";
@@ -39,8 +41,9 @@ app.use(async (ctx,next)=>{
 		await next()
 	}
 })
-
-app.use(router.routes())
+app.use(bodyParser())
+//使用body-parser插件 否则无法获取post的request.body
+app.use(router.routes()).use(router.allowedMethods());
 // app.get("/get/:id",(req,res)=>{
 //     res.send(req.params);          
 // })
