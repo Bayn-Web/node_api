@@ -21,8 +21,10 @@ const router = new Router()
 // })
 
 
-router.get("/get/:id",async (ctx)=>{
-    console.log(ctx.request.url);
+router.get("/get",async (ctx)=>{
+    const {url} = ctx.query
+    console.log(url);
+    console.log(ctx.request.body);
     let str = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	let result = "";
     let len = 4
