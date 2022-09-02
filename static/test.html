@@ -12,9 +12,16 @@
     <input type="text" id="url">
     <button id="but">clock</button>
     <script>
+        const se = {
+            url : "test",
+            newurl : "new"
+        }
          document.getElementById("but").onclick=()=>{
             console.log(document.getElementById("url").value);
-            
+            var httpRequest = new XMLHttpRequest();//第一步：创建需要的对象
+            httpRequest.open('POST', 'http://127.0.0.1:80/post', true); //第二步：打开连接
+            httpRequest.setRequestHeader("Content-type","application/json");//设置请求头 注：post方式必须设置请求头（在建立连接后设置请求头）
+            httpRequest.send(JSON.stringify(se));//发送请求 将情头体写在send中
          }
     </script>
 </body>
