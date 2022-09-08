@@ -32,9 +32,9 @@ router.post("/post",async (ctx)=>{
     console.log(ctx.url);  
     const body = ctx.request.body
     body.promision = false
-    await db.findByUrl(ctx.request.body.url, ctx.request.body.newurl).then(res=>{
+    await db.findByUrl(ctx.request.body.url, ctx.request.body.newurl).then(async res=>{
         if (res.length == 0){
-            db.save(ctx.request.body.url, ctx.request.body.newurl).then(res=>{
+            await db.save(ctx.request.body.url, ctx.request.body.newurl).then(res=>{
                 console.log("add suc!")
                 body.promision = true
             })
