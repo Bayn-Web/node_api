@@ -31,7 +31,7 @@ router.get("/get",async (ctx)=>{
 router.post("/post",async (ctx)=>{
     console.log(ctx.url);  
     const body = ctx.request.body
-    console.log(body);
+    body.promision = false
     await db.findByUrl(ctx.request.body.url, ctx.request.body.newurl).then(res=>{
         if (res.length == 0){
             db.save(ctx.request.body.url, ctx.request.body.newurl).then(res=>{
@@ -40,11 +40,6 @@ router.post("/post",async (ctx)=>{
             })
         }
     })
-    if(body.promision != true){
-        body.promision = false
-        result = "url repeated"
-    }
-    //处理短链
     ctx.body=body
 })
 
