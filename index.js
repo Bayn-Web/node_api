@@ -4,11 +4,6 @@ const app = new koa()
 const bodyParser = require("koa-bodyparser")
 const operation = require("./DB")
 
-// operation.save("baidu.com","aaa").then(res=>{
-// 	console.log(res)
-// })
-
-
 app.use(async (ctx,next)=>{
 	ctx.set('Access-Control-Allow-Origin','*')
 	ctx.set('Access-Control-Allow-Headers','Content-Type,Content-Length,Authorization,Accept,X-Requested-With')

@@ -15,7 +15,7 @@ router.get("/get",async (ctx)=>{
 		result += str[index];
 		--len;
 	}
-    await db.findByUrl(url).then(res=>{
+    await db.findByUrl(url, result).then(res=>{
         if (res.length == 0){
             db.save(result, url).then(res=>{
                 console.log("add suc!")
@@ -30,13 +30,20 @@ router.get("/get",async (ctx)=>{
 
 router.post("/post",async (ctx)=>{
     console.log(ctx.url);  
-    // req.body.newurl=req.body.newurl
     const body = ctx.request.body
-    //判断输入链接是否与数据库重复
     console.log(body);
-    //判断输入短链是否与数据库重复
-    // const returnbody = req.body
-    body.promision = true
+    await db.findByUrl(ctx.request.body.url, ctx.request.body.newurl).then(res=>{
+        if (res.length == 0){
+            db.save(ctx.request.body.url, ctx.request.body.newurl).then(res=>{
+                console.log("add suc!")
+                body.promision = true
+            })
+        }else{
+            console.log("the url is repeat")
+            result = "url repeated"
+            body.promision = false
+        }
+    })
     //处理短链
     ctx.body=body
 })

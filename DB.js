@@ -5,13 +5,13 @@ const uri = "mongodb+srv://bayn:1404197509@shortsaver.4vempyp.mongodb.net/?retry
 // const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
 const options = {
-    findByUrl:async (url)=>{
+    findByUrl:async (url,short)=>{
         var backData = []
         await new Promise((resolve)=>{
             MongoClient.connect(uri, async (err, db)=> {
                 if (err) throw err;
                 var dbo = db.db("myshorter");
-                await dbo.collection("urls"). find({url}).toArray(function(err, result) { // 返回集合中所有数据
+                await dbo.collection("urls"). find({$or:[{url},{short}]}).toArray(function(err, result) { // 返回集合中所有数据
                     if (err) throw err;
                     resolve(result);
                     db.close();
