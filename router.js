@@ -15,9 +15,9 @@ router.get("/get",async (ctx)=>{
 		result += str[index];
 		--len;
 	}
-    await db.findByUrl(url, result).then(res=>{
+    await db.findByUrl(url, result).then(async res=>{
         if (res.length == 0){
-            db.save(result, url).then(res=>{
+            await db.save(url, result).then(res=>{
                 console.log("add suc!")
             })
         }else{
@@ -27,6 +27,23 @@ router.get("/get",async (ctx)=>{
         ctx.body = {newurl : result}
     })
 })
+
+router.get("/short",async (ctx)=>{
+    const {url} = ctx.query
+    console.log(url)
+    let realUrl = ""
+    await db.findByUrl("", url).then(res=>{
+        console.log(res)
+        if (res.length == 0){
+                result = "wrong short url"
+                console.log("wrong short url")
+        }else{
+            realUrl = res.at(0).url
+        }
+        ctx.body = {realurl : realUrl}
+    })
+})
+
 
 router.post("/post",async (ctx)=>{
     console.log(ctx.url);  

@@ -23,13 +23,13 @@ const options = {
         })
         return backData
     },
-    save:async (newUrl,oldUrl)=>{
+    save:async (url,short)=>{
         var back
         await new Promise((resolve)=>{
             MongoClient.connect(uri, async (err, db)=> {
                 if (err) throw err;
                 var dbo = db.db("myshorter");
-                await dbo.collection("urls"). insertOne({url:oldUrl,short:newUrl},(err, result)=>{
+                await dbo.collection("urls"). insertOne({url,short},(err, result)=>{
                     if (err) throw err;
                     resolve(result);
                     db.close();
