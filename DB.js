@@ -5,38 +5,39 @@ const uri = "mongodb+srv://bayn:1404197509@shortsaver.4vempyp.mongodb.net/?retry
 // const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
 const options = {
-    findByUrl:async (url,short)=>{
+    findByUrl: async (url, short) => {
         var backData = []
-        await new Promise((resolve)=>{
-            MongoClient.connect(uri, async (err, db)=> {
+        await new Promise(async (resolve) => {
+            await MongoClient.connect(uri, async (err, db) => {
                 if (err) throw err;
                 var dbo = db.db("myshorter");
-                await dbo.collection("urls"). find({$or:[{url},{short}]}).toArray(function(err, result) { // 返回集合中所有数据
+                await dbo.collection("urls").find({ $or: [{ url }, { short }] }).toArray(function (err, result) { // 返回集合中所有数据
                     if (err) throw err;
                     resolve(result);
                     db.close();
                     console.log("db is closed")
                 });
             });
-        }).then(res=>{
+        }).then(res => {
             backData = backData.concat(res)
         })
         return backData
     },
-    save:async (url,short)=>{
+    save: async (url, short) => {
         var back
-        await new Promise((resolve)=>{
-            MongoClient.connect(uri, async (err, db)=> {
+        await new Promise((resolve) => {
+            MongoClient.connect(uri, async (err, db) => {
                 if (err) throw err;
                 var dbo = db.db("myshorter");
-                await dbo.collection("urls"). insertOne({url,short},(err, result)=>{
+                await dbo.collection("urls").insertOne({ url, short }, (err, result) => {
                     if (err) throw err;
                     resolve(result);
                     db.close();
-                    console.log("db is closed")})
+                    console.log("db is closed")
                 })
-        }).then(res=>{
-            back = Object.assign({}, res) 
+            })
+        }).then(res => {
+            back = Object.assign({}, res)
         })
         return back
     },
